@@ -29,7 +29,6 @@ class DataFile:
         return DataFile(subset, f'{self._file_name}.{self._file_extension}')
 
 
-    # TODO: Metodos de manipulacion de datos como:
     def insert(self, value_list: list) -> 'DataFile':
         new_registers = None
         if type(value_list).__name__ == 'DataFile':
@@ -45,7 +44,7 @@ class DataFile:
             f'{self._file_name}.{self._file_extension}'
         )
 
-    # - Borrar registros acorde a un filtro (funcion)
+
     def delete(self, condition) -> 'DataFile':
         new_data_set = self._data_frame[self._data_frame.apply(
             lambda row: not condition(row),
@@ -57,19 +56,39 @@ class DataFile:
             f'{self._file_name}.{self._file_extension}'
         )
 
-    # - Actualizar valores de... un update, chico
-    def update(self, condition, statement):
-        # * El problema ahora es que una lambda function no puede realizar asignaciones
-        pass
 
-    # TODO: Metodo para modificar el schema de la estructura de datos para:
-    # - Añadir campos
-    def add_field(self, field_name, data_type, default_value):
-        pass
+    def update(self, condition, statement):
+        new_data_set = self._data_frame.copy(deep = True)
+        for index, row in new_data_set.iterrows():
+            if condition(row):
+                statement(row)
+                new_data_set.iloc[index] = row
+        
+        return DataFile(
+            new_data_set,
+            f'{self._file_name}.{self._file_extension}'
+        )
+        
+
+    def add_field(self, field_name, expression = None):
+        new_data_set = self._data_frame.copy(deep = True)
+        if type(expression).__name__ == 'function':
+            new_data_set[field_name] = expression(new_data_set)
+        else:
+            new_data_set[field_name] = expression
+
+        return DataFile(
+            new_data_set,
+            f'{self._file_name}.{self._file_extension}'
+        )
+        
     
-    # - Eliminar campos
     def drop_field(self, field_name):
-        pass
+        new_data_set = self._data_frame.drop(columns = [field_name])
+        return DataFile(
+            new_data_set,
+            f'{self._file_name}.{self._file_extension}'
+        )
 
     # TODO: Metodo para guardar los datos en un fichero (por defecto se 
     # utilizara) el mismo formato del original, pero se puede especificar
