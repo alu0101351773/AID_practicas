@@ -30,16 +30,28 @@ class DataFile:
 
     # TODO: Metodos de manipulacion de datos como:
     # - Insertar registros
+    def insert(self, value_list: list):
+        pass
+
     # - Borrar registros acorde a un filtro (funcion)
+    def delete(self, condition):
+        pass
+
     # - Actualizar valores de... un update, chico
+    def update(self, condition, statement):
+        pass
 
     # TODO: Metodo para modificar el schema de la estructura de datos para:
     # - Añadir campos
+    def add_field(self, field_name, data_type, default_value):
+        pass
+    
     # - Eliminar campos
+    def drop_field(self, field_name):
+        pass
 
     # TODO: Metodo para guardar los datos en un fichero (por defecto se 
     # utilizara) el mismo formato del original, pero se puede especificar
-    pass
 
 
 def read_csv(file_path: str) -> DataFile:
