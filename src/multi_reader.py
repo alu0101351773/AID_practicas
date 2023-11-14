@@ -13,8 +13,8 @@ class DataFile:
         self.data_frame = data_frame
         
 
-    # TODO: Metodo para mostrar en pantalla nombre completo de fichero
-    # y numero de registros
+    def summary(self) -> str:
+        return f'{self.file_name}.{self.file_extension} ({self.data_frame.shape[0]} rows)'
 
     # TODO: Metodo de filtro que reciba una funcion
     # y retorne un DataFile con ese contenido
