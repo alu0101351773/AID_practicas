@@ -30,9 +30,18 @@ class DataFile:
 
     # TODO: Metodos de manipulacion de datos como:
     # - Insertar registros
-    def insert(self, value_list: list | 'DataFile'):
-        print(value_list._data_frame)
-        pass
+    def insert(self, value_list: list):
+        if type(value_list).__name__ == 'DataFile':
+            new_data_frame = pd.concat([
+                self._data_frame,
+                value_list._data_frame
+            ])
+            return DataFile(
+                new_data_frame,
+                f'{self._file_name}.{self._file_extension}'
+            )
+
+        print(len(value_list))
 
     # - Borrar registros acorde a un filtro (funcion)
     def delete(self, condition):
