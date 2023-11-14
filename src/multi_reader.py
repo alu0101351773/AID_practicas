@@ -1,10 +1,21 @@
 import pandas as pd
+import re
+
+FILE_PATTERN = r'(.*)\.(csv|json|xml)'
 
 class DataFile:
     # TODO: Constructor que reciba un pd.dataframe y su nombre
         # * Debe guardar el dataframe, el nombre y la extension
-    def __init__(self, dataframe: pd.Dataframe, file_name: str):
-        pass
+    def __init__(self, data_frame: pd.DataFrame, file_name: str):
+        splitted_file = re.match(
+            pattern = FILE_PATTERN,
+            string = file_name
+        )
+        self.file_name = splitted_file.groups(1)
+        self.file_extension = splitted_file.groups(2)
+
+        self.data_frame = data_frame
+        
 
     # TODO: Metodo para mostrar en pantalla nombre completo de fichero
     # y numero de registros
