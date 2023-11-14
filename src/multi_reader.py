@@ -1,19 +1,15 @@
 import pandas as pd
 import re
+import os
 
 FILE_PATTERN = r'(.*)\.(csv|json|xml)'
 
 class DataFile:
-    # TODO: Constructor que reciba un pd.dataframe y su nombre
-        # * Debe guardar el dataframe, el nombre y la extension
     def __init__(self, data_frame: pd.DataFrame, file_name: str):
-        splitted_file = re.match(
+        (self.file_name, self.file_extension) = re.match(
             pattern = FILE_PATTERN,
             string = file_name
-        )
-        self.file_name = splitted_file.groups(1)
-        self.file_extension = splitted_file.groups(2)
-
+        ).groups()
         self.data_frame = data_frame
         
 
@@ -38,12 +34,21 @@ class DataFile:
 
 
 def read_csv(file_path: str) -> DataFile:
-    pass
+    return _read_file(file_path, pd.read_csv)
 
 
 def read_xml(file_path: str) -> DataFile:
-    pass
+    return _read_file(file_path, pd.read_xml)
 
 
 def read_json(file_path: str) -> DataFile:
-    pass
+    return _read_file(file_path, pd.read_json)
+
+
+def _read_file(file_path: str, parsing_function) -> DataFile:
+    try:
+        data_frame = parsing_function(file_path)
+        file_name = os.path.basename(file_path)
+        return DataFile(data_frame, file_name)
+    except Exception:
+        raise Exception("Incorrect file format")
