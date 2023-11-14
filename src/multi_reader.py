@@ -21,31 +21,41 @@ class DataFile:
         return self._data_frame.to_string()
 
 
-    def filter(self, filter_function) -> 'DataFile':
+    def filter(self, condition) -> 'DataFile':
         subset = self._data_frame[self._data_frame.apply(
-            lambda row: filter_function(row),
+            lambda row: condition(row),
             axis = 1
         )]
         return DataFile(subset, f'{self._file_name}.{self._file_extension}')
 
+
     # TODO: Metodos de manipulacion de datos como:
-    # - Insertar registros
-    def insert(self, value_list: list):
+    def insert(self, value_list: list) -> 'DataFile':
+        new_registers = None
         if type(value_list).__name__ == 'DataFile':
-            new_data_frame = pd.concat([
-                self._data_frame,
-                value_list._data_frame
-            ])
-            return DataFile(
-                new_data_frame,
-                f'{self._file_name}.{self._file_extension}'
+            new_registers = value_list._data_frame
+        else:
+            new_registers = pd.DataFrame.from_records(
+                data = value_list,
+                columns = self._data_frame.columns
             )
 
-        print(len(value_list))
+        return DataFile(
+            pd.concat([self._data_frame, new_registers], ignore_index = True),
+            f'{self._file_name}.{self._file_extension}'
+        )
 
     # - Borrar registros acorde a un filtro (funcion)
-    def delete(self, condition):
-        pass
+    def delete(self, condition) -> 'DataFile':
+        new_data_set = self._data_frame[self._data_frame.apply(
+            lambda row: not condition(row),
+            axis = 1
+        )].reset_index(drop = True)
+
+        return DataFile(
+            new_data_set,
+            f'{self._file_name}.{self._file_extension}'
+        )
 
     # - Actualizar valores de... un update, chico
     def update(self, condition, statement):
