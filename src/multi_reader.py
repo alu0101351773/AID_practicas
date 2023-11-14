@@ -16,8 +16,13 @@ class DataFile:
     def summary(self) -> str:
         return f'{self.file_name}.{self.file_extension} ({self.data_frame.shape[0]} rows)'
 
-    # TODO: Metodo de filtro que reciba una funcion
-    # y retorne un DataFile con ese contenido
+
+    def filter(self, filter_function):
+        subset = self.data_frame[self.data_frame.apply(
+            lambda row: filter_function(row),
+            axis = 1
+        )]
+        return DataFile(subset, f'{self.file_name}.{self.file_extension}')
 
     # TODO: Metodos de manipulacion de datos como:
     # - Insertar registros
