@@ -17,6 +17,10 @@ class DataFile:
         return f'{self.file_name}.{self.file_extension} ({self.data_frame.shape[0]} rows)'
 
 
+    def content(self) -> str:
+        return self.data_frame.to_string()
+
+
     def filter(self, filter_function):
         subset = self.data_frame[self.data_frame.apply(
             lambda row: filter_function(row),
