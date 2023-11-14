@@ -6,31 +6,32 @@ FILE_PATTERN = r'(.*)\.(csv|json|xml)'
 
 class DataFile:
     def __init__(self, data_frame: pd.DataFrame, file_name: str):
-        (self.file_name, self.file_extension) = re.match(
+        (self._file_name, self._file_extension) = re.match(
             pattern = FILE_PATTERN,
             string = file_name
         ).groups()
-        self.data_frame = data_frame
+        self._data_frame = data_frame
         
 
     def summary(self) -> str:
-        return f'{self.file_name}.{self.file_extension} ({self.data_frame.shape[0]} rows)'
+        return f'{self._file_name}.{self._file_extension} ({self._data_frame.shape[0]} rows)'
 
 
     def content(self) -> str:
-        return self.data_frame.to_string()
+        return self._data_frame.to_string()
 
 
-    def filter(self, filter_function):
-        subset = self.data_frame[self.data_frame.apply(
+    def filter(self, filter_function) -> 'DataFile':
+        subset = self._data_frame[self._data_frame.apply(
             lambda row: filter_function(row),
             axis = 1
         )]
-        return DataFile(subset, f'{self.file_name}.{self.file_extension}')
+        return DataFile(subset, f'{self._file_name}.{self._file_extension}')
 
     # TODO: Metodos de manipulacion de datos como:
     # - Insertar registros
-    def insert(self, value_list: list):
+    def insert(self, value_list: list | 'DataFile'):
+        print(value_list._data_frame)
         pass
 
     # - Borrar registros acorde a un filtro (funcion)
