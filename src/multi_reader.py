@@ -59,6 +59,7 @@ class DataFile:
 
     # - Actualizar valores de... un update, chico
     def update(self, condition, statement):
+        # * El problema ahora es que una lambda function no puede realizar asignaciones
         pass
 
     # TODO: Metodo para modificar el schema de la estructura de datos para:
