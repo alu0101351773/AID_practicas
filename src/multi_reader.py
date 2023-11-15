@@ -57,7 +57,7 @@ class DataFile:
         )
 
 
-    def update(self, condition, statement):
+    def update(self, condition, statement) -> 'DataFile':
         new_data_set = self._data_frame.copy(deep = True)
         for index, row in new_data_set.iterrows():
             if condition(row):
@@ -70,7 +70,7 @@ class DataFile:
         )
         
 
-    def add_field(self, field_name, expression = None):
+    def add_field(self, field_name, expression = None) -> 'DataFile':
         new_data_set = self._data_frame.copy(deep = True)
         if type(expression).__name__ == 'function':
             new_data_set[field_name] = expression(new_data_set)
@@ -83,15 +83,27 @@ class DataFile:
         )
         
     
-    def drop_field(self, field_name):
+    def drop_field(self, field_name) -> 'DataFile':
         new_data_set = self._data_frame.drop(columns = [field_name])
         return DataFile(
             new_data_set,
             f'{self._file_name}.{self._file_extension}'
         )
 
-    # TODO: Metodo para guardar los datos en un fichero (por defecto se 
-    # utilizara) el mismo formato del original, pero se puede especificar
+
+    def write(self, file_path) -> None:
+        base_name = os.path.basename(file_path)
+        _, extension = re.match(
+            pattern = FILE_PATTERN,
+            string = base_name
+        ).groups()
+        match extension:
+            case 'csv':
+                self._data_frame.to_csv(file_path)
+            case 'xml':
+                self._data_frame.to_xml(file_path)
+            case 'json':
+                self._data_frame.to_json(file_path)
 
 
 def read_csv(file_path: str) -> DataFile:
