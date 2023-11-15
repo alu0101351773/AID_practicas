@@ -11,6 +11,10 @@ class DataFile:
         Args:
             data_frame (`pd.DataFrame`): dataframe con la informacion a contener
             file_name (`str`): Nombre base del fichero, con la extension incluida
+
+        Important:
+            uso del constructor esta desaconsejado y que se prefiere el uso de
+            las funciones de lectura
         """
 
         (self._file_name, self._file_extension) = re.match(
@@ -115,7 +119,7 @@ class DataFile:
 
 
 
-    def update(self, condition, statement) -> 'DataFile':
+    def update(self, condition, action) -> 'DataFile':
         """Metodo para actualizar registros acorde a un predicado logico,
         aplicando una funcion de cambio (accion) a cada registro afectado
 
@@ -131,7 +135,7 @@ class DataFile:
         new_data_set = self._data_frame.copy(deep = True)
         for index, row in new_data_set.iterrows():
             if condition(row):
-                statement(row)
+                action(row)
                 new_data_set.iloc[index] = row
         
         return DataFile(
