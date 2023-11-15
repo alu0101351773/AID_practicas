@@ -45,6 +45,7 @@ class DataFile:
 
 
 
+    # TODO: Buscar la forma de que el 'subset' resetee el indice
     def filter(self, condition) -> 'DataFile':
         """Metodo para filtrar registros de un DataFile acorde a un predicado
         logico
