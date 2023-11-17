@@ -17,6 +17,7 @@ class DataFile:
             las funciones de lectura
         """
 
+        file_name = os.path.basename(file_name)
         (self._file_name, self._file_extension) = re.match(
             pattern = FILE_PATTERN,
             string = file_name
