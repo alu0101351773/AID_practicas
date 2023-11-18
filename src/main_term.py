@@ -141,7 +141,7 @@ def update_rows():
         update_condition,
         update_action
     )
-    print(f"Filas después de ser modificadas:\n{pre_update_dataset.content()}")
+    print(f"Filas después de ser modificadas:\n{pre_update_dataset.content()}\n")
     
     user_decision = input("¿Desea actualizar estas filas? [y], [n]: ").strip().lower()
     match user_decision:
