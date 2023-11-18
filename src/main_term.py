@@ -5,15 +5,6 @@ import re
 global_dataset: DataFile = None
 
 
-log_operator_dict = {
-    "eq": lambda field, value: lambda row: row[field] == value,
-    "ne": lambda field, value: lambda row: row[field] != value,
-    "lt": lambda field, value: lambda row: row[field] <  value,
-    "le": lambda field, value: lambda row: row[field] <= value,
-    "gt": lambda field, value: lambda row: row[field] >  value,
-    "ge": lambda field, value: lambda row: row[field] >= value
-}
-
 def is_float(value):
     try:
         float(value)
@@ -48,9 +39,7 @@ def show_file_content():
     print(f"\nContenido del fichero:\n{global_dataset.content()}\n")
 
 
-def filter_file():
-    global global_dataset
-
+def parse_filter_condition():
     file_field = input("Campo a filtrar: ").strip()
     
     file_value = input("Valor a filtrar: ").strip()
@@ -68,12 +57,114 @@ def filter_file():
             - lt: campo <  valor
             - le: campo <= valor
     """)
-    logical_operator = input("Operador de comparación: ").strip()
+    logical_operator = input("Operador de comparación: ").strip().lower()
     if logical_operator not in ["eq", "ne", "gt", "ge", "lt", "le"]:
         raise Exception("Operador de comparación desconocido")
     
-    filter_condition = log_operator_dict[logical_operator](file_field, file_value)
-    global_dataset = global_dataset.filter(filter_condition)
+    operator_dict = {
+        "eq": lambda row: row[file_field] == file_value,
+        "ne": lambda row: row[file_field] != file_value,
+        "gt": lambda row: row[file_field] >  file_value,
+        "ge": lambda row: row[file_field] >= file_value,
+        "lt": lambda row: row[file_field] <  file_value,
+        "le": lambda row: row[file_field] <= file_value,
+    }
+
+    return operator_dict[logical_operator]
+
+
+def filter_file():
+    global global_dataset
+    global_dataset = global_dataset.filter(parse_filter_condition())
+
+
+def insert_rows():
+    global global_dataset
+
+    row_number = int(input("Número de filas a insertar: "))
+    new_rows = [ [] for i in range(row_number)]
+    for i in range(row_number):
+        
+        for field in global_dataset.columns():
+            field_value = input(f"Valor de la columna \"{field}\": ")
+            
+            if str.isnumeric(field_value):
+                field_value = int(field_value)
+            elif is_float(field_value):
+                field_value = float(field_value)
+        
+            new_rows[i].append(field_value)
+    
+    global_dataset = global_dataset.insert(new_rows)
+
+
+def delete_rows():
+    global global_dataset
+    filter_condition = parse_filter_condition()
+    rows_to_be_removed: DataFile = global_dataset.filter(filter_condition)
+    print(f"Filas a ser eliminadas:\n{rows_to_be_removed.content()}\n")
+    user_decision = input("¿Desea eliminar estas filas? [y], [n]: ").strip().lower()
+
+    match user_decision:
+        case 'y':
+            global_dataset = global_dataset.delete(filter_condition)
+        case 'n':
+            pass
+        case _:
+            raise Exception("Decisión inválida")
+
+
+def parse_update_action():
+    file_field = input("Campo a actualizar: ").strip()
+    file_value = input("Valor a actualizar: ").strip()
+
+    if str.isnumeric(file_value):
+        file_value = int(file_value)
+    elif is_float(file_value):
+        file_value = float(file_value)
+    
+    def action(row):
+        row[file_field] = file_value
+
+    return action
+
+
+def update_rows():
+    global global_dataset
+    update_condition = parse_filter_condition()
+    update_action = parse_update_action()
+    global_dataset = global_dataset.update(
+        update_condition,
+        update_action
+    )
+
+
+def add_field():
+    global global_dataset
+
+    file_field = input("Campo a añadir: ").strip()
+    file_value = input("Valor a añadir: ").strip()
+
+    if str.isnumeric(file_value):
+        file_value = int(file_value)
+    elif is_float(file_value):
+        file_value = float(file_value)
+
+    global_dataset = global_dataset.add_field(file_field, file_value)
+
+
+def drop_field():
+    global global_dataset
+
+    file_field = input("Campo a eliminar: ").strip()
+    global_dataset = global_dataset.drop_field(file_field)
+
+
+def save_to_file():
+    global global_dataset
+
+    file_path = input("Fichero destino: ").strip()
+    global_dataset.write(file_path)
 
 
 def main_menu():
@@ -126,5 +217,6 @@ if __name__ == "__main__":
     read_data_file()
     show_file_content()
 
-    filter_file()
+    drop_field()
     show_file_content()
+    save_to_file()

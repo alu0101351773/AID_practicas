@@ -47,7 +47,11 @@ class DataFile:
         """
 
         return self._data_frame.to_string()
+    
 
+
+    def columns(self) -> list[str]:
+        return self._data_frame.columns.to_list()
 
 
     # TODO: Buscar la forma de que el 'subset' resetee el indice
