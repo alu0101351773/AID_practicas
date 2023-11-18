@@ -54,7 +54,6 @@ class DataFile:
         return self._data_frame.columns.to_list()
 
 
-    # TODO: Buscar la forma de que el 'subset' resetee el indice
     def filter(self, condition) -> 'DataFile':
         """Metodo para filtrar registros de un DataFile acorde a un predicado
         logico
@@ -69,7 +68,7 @@ class DataFile:
         subset = self._data_frame[self._data_frame.apply(
             lambda row: condition(row),
             axis = 1
-        )]
+        )].reset_index(drop = True)
         return DataFile(subset, f'{self._file_name}.{self._file_extension}')
 
 

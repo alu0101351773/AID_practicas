@@ -133,10 +133,27 @@ def update_rows():
     global global_dataset
     update_condition = parse_filter_condition()
     update_action = parse_update_action()
-    global_dataset = global_dataset.update(
+    
+    pre_update_dataset = global_dataset.filter(update_condition)
+    print(f"Filas antes de ser modificadas:\n{pre_update_dataset.content()}\n")
+
+    pre_update_dataset = pre_update_dataset.update(
         update_condition,
         update_action
     )
+    print(f"Filas después de ser modificadas:\n{pre_update_dataset.content()}")
+    
+    user_decision = input("¿Desea actualizar estas filas? [y], [n]: ").strip().lower()
+    match user_decision:
+        case 'y':
+            global_dataset = global_dataset.update(
+                update_condition,
+                update_action
+            )
+        case 'n':
+            pass
+        case _:
+            raise Exception("Decisión inválida")
 
 
 def add_field():
@@ -217,6 +234,5 @@ if __name__ == "__main__":
     read_data_file()
     show_file_content()
 
-    drop_field()
+    update_rows()
     show_file_content()
-    save_to_file()
