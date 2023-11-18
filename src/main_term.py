@@ -1,5 +1,5 @@
 from multi_reader import *
-import re
+import os
 
 
 global_dataset: DataFile = None
@@ -185,54 +185,52 @@ def save_to_file():
 
 
 def main_menu():
-    print("""
-        Seleccione la operación a realizar:
-          
-            1. Leer fichero
-            2. Mostrar resumen
-            3. Mostrar contenido
-            4. Filtrar por contenido
-            5. Insertar filas
-            6. Eliminar filas
-            7. Modificar filas
-            8. Añadir columna
-            9. Eliminar columna
-           10. Almacenar los cambios en fichero
-          
-           -1. Salida del programa
-    """)
-    user_selection = int(input("Código de operación: ").strip())
+    while True:
+        print("""
+            Seleccione la operación a realizar:
+            
+                1. Leer fichero
+                2. Mostrar resumen
+                3. Mostrar contenido
+                4. Filtrar por contenido
+                5. Insertar filas
+                6. Eliminar filas
+                7. Modificar filas
+                8. Añadir columna
+                9. Eliminar columna
+               10. Almacenar los cambios en fichero
+            
+               -1. Salida del programa
+        """)
+        user_selection = int(input("Código de operación: ").strip())
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    match user_selection:
-        case 1:
-            read_data_file()
-        case 2:
-            pass
-        case 3:
-            pass
-        case 4:
-            pass
-        case 5:
-            pass
-        case 6:
-            pass
-        case 7:
-            pass
-        case 8:
-            pass
-        case 9:
-            pass
-        case 10:
-            pass
-        case -1:
-            pass
-        case _:
-            raise Exception("Opción inválida")
+        match user_selection:
+            case 1:
+                read_data_file()
+            case 2:
+                show_file_summary()
+            case 3:
+                show_file_content()
+            case 4:
+                filter_file()
+            case 5:
+                insert_rows()
+            case 6:
+                delete_rows()
+            case 7:
+                update_rows()
+            case 8:
+                add_field()
+            case 9:
+                drop_field()
+            case 10:
+                save_to_file()
+            case -1:
+                exit(0)
+            case _:
+                raise Exception("Opción inválida")
 
 
 if __name__ == "__main__":
-    read_data_file()
-    show_file_content()
-
-    update_rows()
-    show_file_content()
+    main_menu()
