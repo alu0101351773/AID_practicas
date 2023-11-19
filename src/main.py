@@ -214,16 +214,22 @@ def main_menu():
                 show_file_content()
             case 4:
                 filter_file()
+                show_file_content()
             case 5:
                 insert_rows()
+                show_file_content()
             case 6:
                 delete_rows()
+                show_file_content()
             case 7:
                 update_rows()
+                show_file_content()
             case 8:
                 add_field()
+                show_file_content()
             case 9:
                 drop_field()
+                show_file_content()
             case 10:
                 save_to_file()
             case -1:
