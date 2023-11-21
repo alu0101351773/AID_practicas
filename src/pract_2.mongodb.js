@@ -12,4 +12,7 @@
 // Select the database to use.
 use('AID-Mongo');
 
-db.getCollection('personas').find({}, { _id: 0, Nombre: 1, Edad: 1 });
+db.getCollection('personas').find(
+    { Edad: { $gte: 20 } },
+    { _id: 0, Nombre: 1, Edad: 1 }
+);
