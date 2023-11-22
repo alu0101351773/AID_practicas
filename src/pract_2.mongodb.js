@@ -233,9 +233,26 @@ db.personas.deleteMany({
 })
 
 
-// TODO
 // 27. Muestra el contenido de la colección personas ordenado de forma
 // descendente por ciudad y ascendente por los campos apellidos y nombre
+db.personas.aggregate([{
+    $project: {
+        _id: 0,
+        Aficiones: 1,
+        Amigos: 1,
+        Apellidos: 1,
+        Ciudad: 1,
+        DNI: 1,
+        Edad: 1,
+        Nombre: 1,
+        Ocupacion: 1,
+        Sexo: 1
+    }
+}]).sort({
+    Ciudad: -1,
+    Apellidos: 1,
+    Nombre: 1
+})
 
 
 // 28. DNI de las personas que tienen al menos un amigo en la misma ciudad
