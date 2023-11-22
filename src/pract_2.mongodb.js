@@ -117,10 +117,6 @@ db.personas.find({
     Aficiones: 1
 })
 
-// Si queremos que lo plasme en un array plano sin repeticiones, podemos añadirle
-// el siguiente metodo:
-//      .toArray().map(x => x.Aficiones).flat().filter((x, i, a) => a.indexOf(x) === i)
-
 
 // 14. ¿Cuántas personas viven en Santa Cruz?
 db.personas.countDocuments({
@@ -210,4 +206,44 @@ db.personas.find({ Ciudad: "La Laguna" })
 
 
 // 24. Elimina las personas que vivan en El Sauzal
-db.personas.remove({ Ciudad: "El Sauzal" })
+db.personas.deleteMany({ Ciudad: "El Sauzal" })
+
+
+// 25. Muestra el contenido de la colección personas ordenado de forma
+// descendente por ciudad
+db.personas.aggregate([{
+    $project: {
+        _id: 0,
+        Aficiones: 1,
+        Amigos: 1,
+        Apellidos: 1,
+        Ciudad: 1,
+        DNI: 1,
+        Edad: 1,
+        Nombre: 1,
+        Ocupacion: 1,
+        Sexo: 1        
+    }
+}]).sort({ Ciudad: -1 })
+
+
+// 26. Elimina las personas que tengan un solo amigo
+db.personas.deleteMany({
+    Amigos: { $size: 1 }  
+})
+
+
+// TODO
+// 27. Muestra el contenido de la colección personas ordenado de forma
+// descendente por ciudad y ascendente por los campos apellidos y nombre
+
+
+// 28. DNI de las personas que tienen al menos un amigo en la misma ciudad
+// en que viven
+
+
+// 29. DNI de las personas que tienen algún amigo que comparta con ellos
+// alguna afición
+
+
+// 30. Muestra los DNI de las personas que tienen amigos en común
