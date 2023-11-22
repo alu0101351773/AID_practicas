@@ -3,7 +3,6 @@
 // Select the database to use.
 use('AID-Mongo');
 
-
 // 1. Cuantos documentos tiene la colección personas
 db.personas.find({}).count()
 
@@ -138,10 +137,10 @@ db.personas.countDocuments({
 // 16. ¿Cuántas personas viven en cada ciudad?
 db.personas.aggregate([{
     $group: {
-      _id: "$Ciudad",
-      Poblacion: {
-        $count: {}
-      }
+        _id: "$Ciudad",
+        Poblacion: {
+            $count: {}
+        }
     }
 }])
 
@@ -149,15 +148,15 @@ db.personas.aggregate([{
 // 17. ¿Cuántas personas hay de cada sexo en nuestra base de datos?
 db.personas.aggregate([{
     $group: {
-      _id: "$Sexo",
-      Poblacion: {
-        $count: {}
-      }
+        _id: "$Sexo",
+        Poblacion: {
+            $count: {}
+        }
     }
 }])
 
 
-// 18. Muestra para cada persona cuántos amigos tiene.
+// 18. Muestra para cada persona cuántos amigos tiene
 db.personas.aggregate([{
     $project: {
         _id: 0,
@@ -166,3 +165,49 @@ db.personas.aggregate([{
         NumAmigos: { $size: "$Amigos" }
     }
 }])
+
+
+// 19. Añade a la lista de aficiones de la persona con DNI 9999 el bricolaje
+db.personas.updateOne(
+    { DNI: 9999 },
+    { $addToSet: { Aficiones: "bricolaje" } }
+)
+
+db.personas.find({ DNI: 9999 })
+
+
+// 20. Incrementa la edad de la persona con DNI 3333 en 2 años
+db.personas.updateOne(
+    { DNI: 3333 },
+    { $inc: { Edad: 2 } }
+)
+
+
+// 21. Muestra los DNI y edades de todos los documentos de la colección personas
+db.personas.aggregate([{
+    $project: {
+        _id: 0,
+        DNI: 1,
+        Edad: 1
+    }
+}])
+
+
+// 22. Modifica los siguientes campos para las personas que vivan en La Laguna:
+//     - Multiplica su edad por 2
+//     - Añadeles un campo denominado Ocupación con el valor “Estudiante”.
+db.personas.updateMany(
+    { Ciudad: "La Laguna" },
+    {
+        $mul: { Edad: 2 },
+        $set: { Ocupacion: "Estudiante" }
+    }
+)
+
+
+// 23. Muestra todos los datos de las personas que viven en La Laguna
+db.personas.find({ Ciudad: "La Laguna" })
+
+
+// 24. Elimina las personas que vivan en El Sauzal
+db.personas.remove({ Ciudad: "El Sauzal" })
