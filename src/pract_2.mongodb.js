@@ -4,15 +4,15 @@
 use('AID-Mongo');
 
 
-// Cuantos documentos tiene la colección personas
+// 1. Cuantos documentos tiene la colección personas
 db.personas.find({}).count()
 
 
-// Contenido completo de la colección personas
+// 2. Contenido completo de la colección personas
 db.personas.find({})
 
 
-// Cambiar el DNI de "Milagros Perdomo Gómez" a 1020
+// 3. Cambiar el DNI de "Milagros Perdomo Gómez" a 1020
 db.personas.updateOne(
     { $and: [
         { Nombre: "Milagros" },
@@ -22,49 +22,43 @@ db.personas.updateOne(
 )
 
 
-// Lista el contenido de la colección personas ordenada de forma ascendente
+// 4. Lista el contenido de la colección personas ordenada de forma ascendente
 // por la edad
 db.personas.find({}).sort({ Edad: 1 })
 
 
-// Idem que la anterior pero en formato elegante
+// 5. Idem que la anterior pero en formato elegante
 db.personas.find({}).pretty().sort({ Edad: 1 })
 
 
-// Muestra todos los datos de la persona con DNI 3333.
+// 6. Muestra todos los datos de la persona con DNI 3333.
 db.personas.find({ DNI: 3333 }, { _id: 0 })
 
 
-// Muestra el DNI, nombre y apellidos de las personas que vivan en Santa Cruz
-db.personas.find(
-    {
-        Ciudad: "Santa Cruz"
-    },
-    {
-        _id: 0,
-        DNI: 1,
-        Nombre: 1,
-        Apellidos: 1
-    }
-)
+// 7. Muestra el DNI, nombre y apellidos de las personas que vivan en Santa Cruz
+db.personas.find({
+    Ciudad: "Santa Cruz"
+}).projection({
+    _id: 0,
+    DNI: 1,
+    Nombre: 1,
+    Apellidos: 1
+})
 
 
-// Muestra el DNI de las personas que viven en Santa Cruz o La Laguna
-db.personas.find(
-    {
-        $or: [
-            { Ciudad: "Santa Cruz" },
-            { Ciudad: "La Laguna" }
-        ]
-    },
-    {
-        _id: 0,
-        DNI: 1
-    }
-)
+// 8. Muestra el DNI de las personas que viven en Santa Cruz o La Laguna
+db.personas.find({
+    $or: [
+        { Ciudad: "Santa Cruz" },
+        { Ciudad: "La Laguna" }
+    ]
+}).projection({
+    _id: 0,
+    DNI: 1
+})
 
 
-// Muestra el nombre y apellidos de las personas con edades entre 19 y 25 años
+// 9. Muestra el nombre y apellidos de las personas con edades entre 19 y 25 años
 db.personas.find({
     $and: [
         { Edad: { $gte: 19 } },
@@ -78,7 +72,7 @@ db.personas.find({
 })
 
 
-// Muestra el DNI, nombre y apellidos de las personas a las que les gusta
+// 10. Muestra el DNI, nombre y apellidos de las personas a las que les gusta
 // el running y la natación.
 db.personas.find({
     $and: [
@@ -93,7 +87,7 @@ db.personas.find({
 })
 
 
-// Muestra el DNI, nombre y apellidos de las personas a las que les gusta
+// 11. Muestra el DNI, nombre y apellidos de las personas a las que les gusta
 // el running o la natación.
 db.personas.find({
     Aficiones: { $in: ["running", "natacion"] }
@@ -105,9 +99,9 @@ db.personas.find({
 })
 
 
-// Muestra los DNI de las personas que son amigas de la persona con DNI 5555.
+// 12. Muestra los DNI de las personas que son amigas de la persona con DNI 5555.
 db.personas.find({
-    Amigos: { $in: [{DNI: 5555}]}
+    Amigos: { $in: [{DNI: 5555}] }
 }).projection({
     _id: 0,
     DNI: 1,
@@ -115,5 +109,60 @@ db.personas.find({
 })
 
 
-// Muestra un listado de las aficiones que tienen las personas con edades
+// 13. Muestra un listado de las aficiones que tienen las personas con edades
 // inferiores a 22 años.
+db.personas.find({
+    Edad: { $lt: 22 }
+}).projection({
+    _id: 0,
+    Aficiones: 1
+})
+
+// Si queremos que lo plasme en un array plano sin repeticiones, podemos añadirle
+// el siguiente metodo:
+//      .toArray().map(x => x.Aficiones).flat().filter((x, i, a) => a.indexOf(x) === i)
+
+
+// 14. ¿Cuántas personas viven en Santa Cruz?
+db.personas.countDocuments({
+    Ciudad: "Santa Cruz"
+})
+
+
+// 15. ¿Cuántos hombres hay en nuestra base de datos?
+db.personas.countDocuments({
+    Sexo: 'M'
+})
+
+
+// 16. ¿Cuántas personas viven en cada ciudad?
+db.personas.aggregate([{
+    $group: {
+      _id: "$Ciudad",
+      Poblacion: {
+        $count: {}
+      }
+    }
+}])
+
+
+// 17. ¿Cuántas personas hay de cada sexo en nuestra base de datos?
+db.personas.aggregate([{
+    $group: {
+      _id: "$Sexo",
+      Poblacion: {
+        $count: {}
+      }
+    }
+}])
+
+
+// 18. Muestra para cada persona cuántos amigos tiene.
+db.personas.aggregate([{
+    $project: {
+        _id: 0,
+        Nombre: 1,
+        Apellidos: 1,
+        NumAmigos: { $size: "$Amigos" }
+    }
+}])
