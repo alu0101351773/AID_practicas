@@ -13,11 +13,17 @@ db.personas.find({})
 
 // 3. Cambiar el DNI de "Milagros Perdomo Gómez" a 1020
 db.personas.updateOne(
-    { $and: [
-        { Nombre: "Milagros" },
-        { Apellidos: "Perdomo Gomez" }
-    ]},
-    { $set: { DNI: 1020 } }
+    { 
+        $and: [
+            { Nombre: "Milagros" },
+            { Apellidos: "Perdomo Gomez" }
+        ]
+    },
+    {
+        $set: {
+            DNI: 1020
+        }
+    }
 )
 
 
@@ -31,7 +37,11 @@ db.personas.find({}).pretty().sort({ Edad: 1 })
 
 
 // 6. Muestra todos los datos de la persona con DNI 3333.
-db.personas.find({ DNI: 3333 }, { _id: 0 })
+db.personas.find({
+    DNI: 3333
+}).projection({
+    _id: 0
+})
 
 
 // 7. Muestra el DNI, nombre y apellidos de las personas que vivan en Santa Cruz
