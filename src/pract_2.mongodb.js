@@ -179,8 +179,6 @@ db.personas.updateOne(
     { $addToSet: { Aficiones: "bricolaje" } }
 )
 
-db.personas.find({ DNI: 9999 })
-
 
 // 20. Incrementa la edad de la persona con DNI 3333 en 2 años
 db.personas.updateOne(
