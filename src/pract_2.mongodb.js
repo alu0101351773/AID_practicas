@@ -136,7 +136,7 @@ db.personas.countDocuments({
 
 // 15. ¿Cuántos hombres hay en nuestra base de datos?
 db.personas.countDocuments({
-    Sexo: 'M'
+    Sexo: 'H'
 })
 
 
