@@ -1,0 +1,246 @@
+[
+   {
+      "DNI": 1111,
+      "Nombre": "Maria",
+      "Apellidos": "Mendez Garcia",
+      "Ciudad": "La Laguna",
+      "Edad": 21,
+      "Sexo": "M",
+      "Aficiones": [
+         "pintura",
+         "senderismo",
+         "natacion"
+      ],
+      "Amigos": [
+         {
+            "DNI": 2222
+         },
+         {
+            "DNI": 4444
+         }
+      ]
+   },
+   {
+      "DNI": 2222,
+      "Nombre": "Carmen",
+      "Apellidos": "Martinez Palacios",
+      "Ciudad": "Tacoronte",
+      "Edad": 22,
+      "Sexo": "M",
+      "Aficiones": [
+         "pintura",
+         "tenis",
+         "natacion"
+      ],
+      "Amigos": [
+         {
+            "DNI": 1111
+         },
+         {
+            "DNI": 9999
+         }
+      ]
+   },
+   {
+      "DNI": 3333,
+      "Nombre": "Carlos",
+      "Apellidos": "Sanchez Diaz",
+      "Ciudad": "Santa Cruz",
+      "Edad": 18,
+      "Sexo": "H",
+      "Aficiones": [
+         "futbol",
+         "natacion",
+         "running"
+      ],
+      "Amigos": [
+         {
+            "DNI": 2222
+         },
+         {
+            "DNI": 5555
+         },
+         {
+            "DNI": 1111
+         }
+      ]
+   },
+   {
+      "DNI": 4444,
+      "Nombre": "Antonio",
+      "Apellidos": "Perez Carrillo",
+      "Ciudad": "Santa Cruz",
+      "Edad": 25,
+      "Sexo": "H",
+      "Aficiones": [
+         "ciclismo",
+         "running"
+      ],
+      "Amigos": [
+         {
+            "DNI": 3333
+         },
+         {
+            "DNI": 5555
+         },
+         {
+            "DNI": 9999
+         }
+      ]
+   },
+   {
+      "DNI": 5555,
+      "Nombre": "Pedro",
+      "Apellidos": "Arzola Brito",
+      "Ciudad": "La Laguna",
+      "Edad": 23,
+      "Sexo": "H",
+      "Aficiones": [
+         "musica",
+         "lectura",
+         "running"
+      ],
+      "Amigos": [
+         {
+            "DNI": 2222
+         },
+         {
+            "DNI": 4444
+         },
+         {
+            "DNI": 1111
+         }
+      ]
+   },
+   {
+      "DNI": 6666,
+      "Nombre": "Pilar",
+      "Apellidos": "Dorta Gil",
+      "Ciudad": "El Sauzal",
+      "Edad": 27,
+      "Sexo": "M",
+      "Aficiones": [
+         "lectura",
+         "natacion",
+         "tenis"
+      ],
+      "Amigos": [
+         {
+            "DNI": 7777
+         },
+         {
+            "DNI": 8888
+         }
+      ]
+   },
+   {
+      "DNI": 7777,
+      "Nombre": "Luis",
+      "Apellidos": "Mejias Rodriguez",
+      "Ciudad": "Santa Cruz",
+      "Edad": 26,
+      "Sexo": "H",
+      "Aficiones": [
+         "ciclismo",
+         "natacion",
+         "running"
+      ],
+      "Amigos": [
+         {
+            "DNI": 6666
+         }
+      ]
+   },
+   {
+      "DNI": 8888,
+      "Nombre": "Teresa",
+      "Apellidos": "Vicario Diaz",
+      "Ciudad": "Tacoronte",
+      "Edad": 23,
+      "Sexo": "M",
+      "Aficiones": [
+         "lectura",
+         "running"
+      ],
+      "Amigos": [
+         {
+            "DNI": 1111
+         },
+         {
+            "DNI": 4444
+         },
+         {
+            "DNI": 6666
+         }
+      ]
+   },
+   {
+      "DNI": 9999,
+      "Nombre": "Rosa",
+      "Apellidos": "Cutillas Caro",
+      "Ciudad": "Santa Cruz",
+      "Edad": 17,
+      "Sexo": "M",
+      "Aficiones": [
+         "cine",
+         "teatro",
+         "lectura",
+         "patinaje"
+      ],
+      "Amigos": [
+         {
+            "DNI": 1111
+         },
+         {
+            "DNI": 3333
+         },
+         {
+            "DNI": 2222
+         }
+      ]
+   },
+   {
+      "DNI": 1010,
+      "Nombre": "David",
+      "Apellidos": "Mendez Prieto",
+      "Ciudad": "Santa ursula",
+      "Edad": 29,
+      "Sexo": "H",
+      "Aficiones": [
+         "cine",
+         "lectura",
+         "bricolaje"
+      ],
+      "Amigos": [
+         {
+            "DNI": 6666
+         },
+         {
+            "DNI": 1020
+         }
+      ]
+   },
+   {
+      "DNI": 1020,
+      "Nombre": "Milagros",
+      "Apellidos": "Perdomo Gomez",
+      "Ciudad": "La Laguna",
+      "Edad": 25,
+      "Sexo": "M",
+      "Aficiones": [
+         "teatro",
+         "lectura"
+      ],
+      "Amigos": [
+         {
+            "DNI": 7777
+         },
+         {
+            "DNI": 2222
+         },
+         {
+            "DNI": 1111
+         }
+      ]
+   }
+]
